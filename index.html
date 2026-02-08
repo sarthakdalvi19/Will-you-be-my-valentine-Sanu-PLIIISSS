@@ -92,7 +92,7 @@ button {
 }
 
 .result h2 {
-    font-size: 2.2rem; /* REDUCED FONT SIZE */
+    font-size: 2.2rem;
     color: hotpink;
     margin-bottom: 20px;
 }
@@ -103,8 +103,16 @@ button {
     font-family: monospace;
 }
 
+#musicTyping {
+    color: white;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    font-family: monospace;
+}
+
 .result img {
     width: 240px;
+    margin-top: 15px;
 }
 
 .graffiti {
@@ -162,9 +170,13 @@ z-index: 12;
 </div>
 
 <div class="result" id="result">
-    <h2>I knew you would say yes.</h2>
+    <h2>I knew you would say yes 💃🔥</h2>
     <div id="typing"></div>
+
     <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJyeDhpdzZxOTM1NTNybGV3aDF3dGIwdDB3eW1lYnE1YXltdjFyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YtLxH12xAeQoFMtYMl/giphy.gif">
+
+    <!-- Ni Sa Ga Re text BELOW GIF -->
+    <div id="musicTyping"></div>
 </div>
 
 <script>
@@ -175,6 +187,7 @@ const result = document.getElementById("result");
 const music = document.getElementById("music");
 const teddy = document.getElementById("teddy");
 const typingDiv = document.getElementById("typing");
+const musicTypingDiv = document.getElementById("musicTyping");
 
 /* Sad messages */
 const sadMessages = [
@@ -205,9 +218,7 @@ function escapeNo() {
 
     msgIndex = (msgIndex + 1) % sadMessages.length;
 
-    if (navigator.vibrate) {
-        navigator.vibrate([200, 100, 200]);
-    }
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
     yesScale += 0.15;
     yesBtn.style.transform = `scale(${yesScale})`;
@@ -233,17 +244,32 @@ yesBtn.onclick = () => {
     typeText();
 };
 
-/* Typing Effect */
+/* Typing Text */
 const text = "Girlfriend.exe successfully installed 💘";
-let i = 0;
+const musicText = "Ni Sa Ga Re Sa Ni Sa Ga Ma Pa Pa Ma Ga Ma Re Sa Ni Sa Ga Re Sa Ni Sa";
+let i = 0, j = 0;
+
 function typeText() {
     typingDiv.textContent = "";
-    i = 0;
+    musicTypingDiv.textContent = "";
+    i = 0; j = 0;
+
     const interval = setInterval(() => {
         typingDiv.textContent += text.charAt(i);
         i++;
-        if (i >= text.length) clearInterval(interval);
+        if (i >= text.length) {
+            clearInterval(interval);
+            typeMusic();
+        }
     }, 80);
+}
+
+function typeMusic() {
+    const interval2 = setInterval(() => {
+        musicTypingDiv.textContent += musicText.charAt(j);
+        j++;
+        if (j >= musicText.length) clearInterval(interval2);
+    }, 50);
 }
 
 /* Graffiti */
