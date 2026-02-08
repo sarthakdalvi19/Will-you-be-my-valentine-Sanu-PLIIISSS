@@ -92,9 +92,15 @@ button {
 }
 
 .result h2 {
-    font-size: 3rem;
+    font-size: 2.2rem; /* REDUCED FONT SIZE */
     color: hotpink;
     margin-bottom: 20px;
+}
+
+#typing {
+    color: #00ff88;
+    font-size: 1.6rem;
+    font-family: monospace;
 }
 
 .result img {
@@ -137,7 +143,6 @@ canvas {
 
 <div id="fakeNo">😳 NO IS NOT AN OPTION</div>
 
-<!-- Teddy -->
 <img id="teddy" src="" style="
 position: fixed;
 bottom: 20px;
@@ -157,7 +162,8 @@ z-index: 12;
 </div>
 
 <div class="result" id="result">
-    <h2>I KNEW YOU LOVED ME AND YOU’D SAY YES 💃🔥</h2>
+    <h2>I knew you would say yes.</h2>
+    <div id="typing"></div>
     <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJyeDhpdzZxOTM1NTNybGV3aDF3dGIwdDB3eW1lYnE1YXltdjFyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YtLxH12xAeQoFMtYMl/giphy.gif">
 </div>
 
@@ -168,6 +174,7 @@ const fakeNo = document.getElementById("fakeNo");
 const result = document.getElementById("result");
 const music = document.getElementById("music");
 const teddy = document.getElementById("teddy");
+const typingDiv = document.getElementById("typing");
 
 /* Sad messages */
 const sadMessages = [
@@ -198,12 +205,10 @@ function escapeNo() {
 
     msgIndex = (msgIndex + 1) % sadMessages.length;
 
-    // Phone vibration (mobile only)
     if (navigator.vibrate) {
         navigator.vibrate([200, 100, 200]);
     }
 
-    // YES button grows slowly 😈
     yesScale += 0.15;
     yesBtn.style.transform = `scale(${yesScale})`;
 
@@ -225,7 +230,21 @@ yesBtn.onclick = () => {
     result.style.display = "flex";
     startFireworks();
     graffiti();
+    typeText();
 };
+
+/* Typing Effect */
+const text = "Girlfriend.exe successfully installed 💘";
+let i = 0;
+function typeText() {
+    typingDiv.textContent = "";
+    i = 0;
+    const interval = setInterval(() => {
+        typingDiv.textContent += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+    }, 80);
+}
 
 /* Graffiti */
 function graffiti() {
