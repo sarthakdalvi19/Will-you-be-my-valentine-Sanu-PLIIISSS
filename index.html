@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine 💘</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial Black', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        overflow: hidden;
+        background: #ffeff5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Floating hearts */
+    .hearts span {
+        position: absolute;
+        font-size: 24px;
+        animation: float 6s linear infinite;
+        opacity: 0.8;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh) scale(1); }
+        100% { transform: translateY(-10vh) scale(1.5); }
+    }
+
+    .container {
+        z-index: 2;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        color: #ff005d;
+        margin-bottom: 30px;
+        font-weight: 900;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    #yes {
+        background: #ff005d;
+        color: white;
+    }
+
+    #no {
+        background: #555;
+        color: white;
+        position: relative;
+    }
+
+    /* Result screen */
+    .result {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: #000;
+        color: #fff;
+        z-index: 5;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .result h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #ff2f92;
+    }
+
+    .result img {
+        width: 200px;
+        max-width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .graffiti {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0.8;
+        animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating Hearts -->
+<div class="hearts">
+    <span style="left:10%; animation-delay:0s;">💖</span>
+    <span style="left:25%; animation-delay:1s;">💘</span>
+    <span style="left:40%; animation-delay:2s;">❤️</span>
+    <span style="left:55%; animation-delay:3s;">💞</span>
+    <span style="left:70%; animation-delay:1.5s;">💕</span>
+    <span style="left:85%; animation-delay:2.5s;">💓</span>
+</div>
+
+<div class="container">
+    <h1>SANIYA, WILL YOU BE MY VALENTINE?</h1>
+    <div class="buttons">
+        <button id="yes">YES 💘</button>
+        <button id="no">NO 😏</button>
+    </div>
+</div>
+
+<!-- Result Screen -->
+<div class="result" id="result">
+    <h2>I KNEW YOU LOVE ME 💃🔥</h2>
+	    <h3>nee sa ga re sa ni sa ga ma pa pa ma ga ma re sa nee sa ga re sa nee sa</h3>
+    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJyeDhpdzZxOTM1NTNybGV3aDF3dGIwdDB3eW1lYnE1YXltdjFyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YtLxH12xAeQoFMtYMl/giphy.gif" alt="Dancing GIF">
+</div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const result = document.getElementById("result");
+
+    // Make NO run away
+    function moveNo() {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+    noBtn.addEventListener("click", e => e.preventDefault());
+
+    // YES clicked
+    yesBtn.addEventListener("click", () => {
+        result.style.display = "flex";
+
+        // graffiti chaos
+        for (let i = 0; i < 20; i++) {
+            const g = document.createElement("div");
+            g.className = "graffiti";
+            g.innerText = ["LOVE", "💖", "XOXO", "🔥", "😘"][Math.floor(Math.random()*5)];
+            g.style.left = Math.random() * 100 + "%";
+            g.style.top = Math.random() * 100 + "%";
+            document.body.appendChild(g);
+        }
+    });
+</script>
+
+</body>
+</html>
