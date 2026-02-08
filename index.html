@@ -57,6 +57,7 @@ button {
     font-size: 1.3rem;
     border-radius: 14px;
     border: none;
+    transition: transform 0.4s ease;
 }
 
 #yes {
@@ -136,6 +137,17 @@ canvas {
 
 <div id="fakeNo">😳 NO IS NOT AN OPTION</div>
 
+<!-- Teddy -->
+<img id="teddy" src="" style="
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+width: 200px;
+display: none;
+z-index: 12;
+">
+
 <div class="container">
     <h1>SANIYA, WILL YOU BE MY VALENTINE?</h1>
     <div class="buttons">
@@ -145,8 +157,8 @@ canvas {
 </div>
 
 <div class="result" id="result">
-    <h2>I KNEW YOU LOVE ME 💃🔥</h2>
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+    <h2>I KNEW YOU LOVED ME AND YOU’D SAY YES 💃🔥</h2>
+    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJyeDhpdzZxOTM1NTNybGV3aDF3dGIwdDB3eW1lYnE1YXltdjFyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YtLxH12xAeQoFMtYMl/giphy.gif">
 </div>
 
 <script>
@@ -155,13 +167,54 @@ const noBtn = document.getElementById("no");
 const fakeNo = document.getElementById("fakeNo");
 const result = document.getElementById("result");
 const music = document.getElementById("music");
+const teddy = document.getElementById("teddy");
+
+/* Sad messages */
+const sadMessages = [
+  "😢 You are making me sad...",
+  "🥺 Please don’t do this...",
+  "💔 Oops, you can't say NO!",
+  "😭 My heart is breaking..."
+];
+
+/* Teddy GIFs */
+const teddyImages = [
+  "https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif",
+  "https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif",
+  "https://media.giphy.com/media/3o6gE5aYdT3t1a2G8g/giphy.gif",
+  "https://media.giphy.com/media/1rNWx6qT3R9Tq6/giphy.gif"
+];
+
+let msgIndex = 0;
+let yesScale = 1;
 
 /* NO button escape */
 function escapeNo() {
     fakeNo.style.display = "block";
-    setTimeout(() => fakeNo.style.display = "none", 700);
+    teddy.style.display = "block";
+
+    fakeNo.textContent = sadMessages[msgIndex];
+    teddy.src = teddyImages[msgIndex];
+
+    msgIndex = (msgIndex + 1) % sadMessages.length;
+
+    // Phone vibration (mobile only)
+    if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200]);
+    }
+
+    // YES button grows slowly 😈
+    yesScale += 0.15;
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    setTimeout(() => {
+        fakeNo.style.display = "none";
+        teddy.style.display = "none";
+    }, 1200);
+
     noBtn.style.transform = `translate(${Math.random()*300-150}px,${Math.random()*300-150}px)`;
 }
+
 noBtn.addEventListener("mouseenter", escapeNo);
 noBtn.addEventListener("touchstart", escapeNo);
 noBtn.onclick = e => e.preventDefault();
@@ -189,7 +242,7 @@ function graffiti() {
     }
 }
 
-/* Fireworks canvas */
+/* Fireworks */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
