@@ -1,130 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Valentine 💘</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Arial Black', sans-serif;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial Black', sans-serif;
+}
 
-    body {
-        height: 100vh;
-        overflow: hidden;
-        background: #ffeff5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
-    /* Floating hearts */
-    .hearts span {
-        position: absolute;
-        font-size: 24px;
-        animation: float 6s linear infinite;
-        opacity: 0.8;
-    }
+/* Floating hearts */
+.hearts span {
+    position: absolute;
+    font-size: 26px;
+    animation: float 7s linear infinite;
+    opacity: 0.8;
+}
 
-    @keyframes float {
-        0% { transform: translateY(100vh) scale(1); }
-        100% { transform: translateY(-10vh) scale(1.5); }
-    }
+@keyframes float {
+    0% { transform: translateY(110vh) scale(1); }
+    100% { transform: translateY(-10vh) scale(1.6); }
+}
 
-    .container {
-        z-index: 2;
-        padding: 20px;
-    }
+.container {
+    z-index: 3;
+    padding: 20px;
+}
 
-    h1 {
-        font-size: 2.2rem;
-        color: #ff005d;
-        margin-bottom: 30px;
-        font-weight: 900;
-    }
+h1 {
+    font-size: 2.3rem;
+    color: #ff005d;
+    margin-bottom: 30px;
+    font-weight: 900;
+}
 
-    .buttons {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-    }
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
 
-    button {
-        padding: 15px 30px;
-        font-size: 1.2rem;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+button {
+    padding: 15px 32px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 14px;
+}
 
-    #yes {
-        background: #ff005d;
-        color: white;
-    }
+#yes {
+    background: #ff005d;
+    color: white;
+}
 
-    #no {
-        background: #555;
-        color: white;
-        position: relative;
-    }
+#no {
+    background: #333;
+    color: white;
+    position: relative;
+}
 
-    /* Result screen */
-    .result {
-        display: none;
-        position: absolute;
-        inset: 0;
-        background: #000;
-        color: #fff;
-        z-index: 5;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 20px;
-    }
+/* Fake NO message */
+#fakeNo {
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    font-size: 1.8rem;
+    color: red;
+    display: none;
+    z-index: 4;
+}
 
-    .result h2 {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        color: #ff2f92;
-    }
+/* Result Screen */
+.result {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: black;
+    color: white;
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
-    .result img {
-        width: 200px;
-        max-width: 80%;
-        margin-bottom: 20px;
-    }
+.result h2 {
+    font-size: 2.6rem;
+    margin-bottom: 20px;
+    color: #ff2f92;
+}
 
-    .graffiti {
-        position: absolute;
-        font-size: 2rem;
-        opacity: 0.8;
-        animation: spin 4s linear infinite;
-    }
+.result img {
+    width: 220px;
+}
 
-    @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: yellow;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform: scale(15);
+        opacity: 0;
     }
+}
 </style>
 </head>
 
 <body>
 
-<!-- Floating Hearts -->
+<!-- Background Music -->
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b5c3d2f99.mp3" type="audio/mpeg">
+</audio>
+
 <div class="hearts">
-    <span style="left:10%; animation-delay:0s;">💖</span>
-    <span style="left:25%; animation-delay:1s;">💘</span>
-    <span style="left:40%; animation-delay:2s;">❤️</span>
-    <span style="left:55%; animation-delay:3s;">💞</span>
-    <span style="left:70%; animation-delay:1.5s;">💕</span>
-    <span style="left:85%; animation-delay:2.5s;">💓</span>
+    <span style="left:5%">💖</span>
+    <span style="left:20%">💘</span>
+    <span style="left:35%">❤️</span>
+    <span style="left:50%">💞</span>
+    <span style="left:65%">💕</span>
+    <span style="left:80%">💓</span>
 </div>
+
+<div id="fakeNo">😳 OOPS… YOU CAN’T SAY NO</div>
 
 <div class="container">
     <h1>SANIYA, WILL YOU BE MY VALENTINE?</h1>
@@ -134,43 +164,63 @@
     </div>
 </div>
 
-<!-- Result Screen -->
 <div class="result" id="result">
     <h2>I KNEW YOU LOVE ME 💃🔥</h2>
-	    <h3>nee sa ga re sa ni sa ga ma pa pa ma ga ma re sa nee sa ga re sa nee sa</h3>
-    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExczJyeDhpdzZxOTM1NTNybGV3aDF3dGIwdDB3eW1lYnE1YXltdjFyayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YtLxH12xAeQoFMtYMl/giphy.gif" alt="Dancing GIF">
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
 </div>
 
 <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const result = document.getElementById("result");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const fakeNo = document.getElementById("fakeNo");
+const result = document.getElementById("result");
+const music = document.getElementById("music");
 
-    // Make NO run away
-    function moveNo() {
-        const x = Math.random() * 200 - 100;
-        const y = Math.random() * 200 - 100;
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+// Fake NO + escape
+function escapeNo() {
+    fakeNo.style.display = "block";
+    setTimeout(() => fakeNo.style.display = "none", 800);
+
+    const x = Math.random() * 250 - 125;
+    const y = Math.random() * 250 - 125;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+noBtn.addEventListener("mouseenter", escapeNo);
+noBtn.addEventListener("touchstart", escapeNo);
+noBtn.addEventListener("click", e => e.preventDefault());
+
+// YES clicked
+yesBtn.addEventListener("click", () => {
+    music.play();
+    result.style.display = "flex";
+    confetti();
+    fireworks();
+});
+
+// Confetti generator
+function confetti() {
+    for (let i = 0; i < 60; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random() * 100 + "%";
+        c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+        c.style.animationDuration = Math.random()*2 + 2 + "s";
+        document.body.appendChild(c);
     }
+}
 
-    noBtn.addEventListener("mouseenter", moveNo);
-    noBtn.addEventListener("touchstart", moveNo);
-    noBtn.addEventListener("click", e => e.preventDefault());
-
-    // YES clicked
-    yesBtn.addEventListener("click", () => {
-        result.style.display = "flex";
-
-        // graffiti chaos
-        for (let i = 0; i < 20; i++) {
-            const g = document.createElement("div");
-            g.className = "graffiti";
-            g.innerText = ["LOVE", "💖", "XOXO", "🔥", "😘"][Math.floor(Math.random()*5)];
-            g.style.left = Math.random() * 100 + "%";
-            g.style.top = Math.random() * 100 + "%";
-            document.body.appendChild(g);
-        }
-    });
+// Fireworks generator
+function fireworks() {
+    setInterval(() => {
+        const f = document.createElement("div");
+        f.className = "firework";
+        f.style.left = Math.random() * 100 + "%";
+        f.style.top = Math.random() * 100 + "%";
+        document.body.appendChild(f);
+        setTimeout(() => f.remove(), 1000);
+    }, 300);
+}
 </script>
 
 </body>
