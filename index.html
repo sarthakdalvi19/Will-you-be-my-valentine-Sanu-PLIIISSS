@@ -16,36 +16,34 @@
 body {
     height: 100vh;
     overflow: hidden;
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    background: radial-gradient(circle, #ffb6c1, #ff4d6d);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-/* Floating hearts */
 .hearts span {
     position: absolute;
-    font-size: 26px;
-    animation: float 7s linear infinite;
-    opacity: 0.8;
+    font-size: 28px;
+    animation: float 6s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(110vh) scale(1); }
-    100% { transform: translateY(-10vh) scale(1.6); }
+    from { transform: translateY(110vh); }
+    to { transform: translateY(-10vh); }
 }
 
 .container {
-    z-index: 3;
+    z-index: 5;
     padding: 20px;
 }
 
 h1 {
-    font-size: 2.3rem;
-    color: #ff005d;
+    font-size: 2.4rem;
+    color: #fff;
     margin-bottom: 30px;
-    font-weight: 900;
+    text-shadow: 2px 2px 10px #000;
 }
 
 .buttons {
@@ -55,95 +53,77 @@ h1 {
 }
 
 button {
-    padding: 15px 32px;
-    font-size: 1.2rem;
-    border: none;
+    padding: 15px 35px;
+    font-size: 1.3rem;
     border-radius: 14px;
+    border: none;
 }
 
 #yes {
-    background: #ff005d;
-    color: white;
+    background: #00ff88;
 }
 
 #no {
-    background: #333;
+    background: #111;
     color: white;
     position: relative;
 }
 
-/* Fake NO message */
 #fakeNo {
     position: absolute;
-    top: 15%;
+    top: 10%;
     width: 100%;
-    font-size: 1.8rem;
-    color: red;
+    color: yellow;
+    font-size: 2rem;
     display: none;
-    z-index: 4;
+    z-index: 10;
 }
 
-/* Result Screen */
 .result {
     display: none;
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: black;
-    color: white;
-    z-index: 10;
+    z-index: 20;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .result h2 {
-    font-size: 2.6rem;
+    font-size: 3rem;
+    color: hotpink;
     margin-bottom: 20px;
-    color: #ff2f92;
 }
 
 .result img {
-    width: 220px;
+    width: 240px;
 }
 
-/* Confetti */
-.confetti {
+.graffiti {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    animation: fall 3s linear infinite;
+    font-size: 2.5rem;
+    font-weight: 900;
+    opacity: 0.9;
+    transform: rotate(-20deg);
 }
 
-@keyframes fall {
-    from { transform: translateY(-10vh) rotate(0deg); }
-    to { transform: translateY(110vh) rotate(360deg); }
-}
-
-/* Fireworks */
-.firework {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: yellow;
-    border-radius: 50%;
-    animation: explode 1s ease-out forwards;
-}
-
-@keyframes explode {
-    to {
-        transform: scale(15);
-        opacity: 0;
-    }
+canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    pointer-events: none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Background Music -->
-<audio id="music" loop>
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4b5c3d2f99.mp3" type="audio/mpeg">
+<audio id="music" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/08/04/audio_51c2f3c8f2.mp3?filename=romantic-piano-112191.mp3">
 </audio>
+
+<canvas id="fireworks"></canvas>
 
 <div class="hearts">
     <span style="left:5%">💖</span>
@@ -154,7 +134,7 @@ button {
     <span style="left:80%">💓</span>
 </div>
 
-<div id="fakeNo">😳 OOPS… YOU CAN’T SAY NO</div>
+<div id="fakeNo">😳 NO IS NOT AN OPTION</div>
 
 <div class="container">
     <h1>SANIYA, WILL YOU BE MY VALENTINE?</h1>
@@ -170,56 +150,63 @@ button {
 </div>
 
 <script>
-const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
 const fakeNo = document.getElementById("fakeNo");
 const result = document.getElementById("result");
 const music = document.getElementById("music");
 
-// Fake NO + escape
+/* NO button escape */
 function escapeNo() {
     fakeNo.style.display = "block";
-    setTimeout(() => fakeNo.style.display = "none", 800);
-
-    const x = Math.random() * 250 - 125;
-    const y = Math.random() * 250 - 125;
-    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    setTimeout(() => fakeNo.style.display = "none", 700);
+    noBtn.style.transform = `translate(${Math.random()*300-150}px,${Math.random()*300-150}px)`;
 }
-
 noBtn.addEventListener("mouseenter", escapeNo);
 noBtn.addEventListener("touchstart", escapeNo);
-noBtn.addEventListener("click", e => e.preventDefault());
+noBtn.onclick = e => e.preventDefault();
 
-// YES clicked
-yesBtn.addEventListener("click", () => {
-    music.play();
+/* YES click */
+yesBtn.onclick = () => {
+    music.play().catch(()=>{});
     result.style.display = "flex";
-    confetti();
-    fireworks();
-});
+    startFireworks();
+    graffiti();
+};
 
-// Confetti generator
-function confetti() {
-    for (let i = 0; i < 60; i++) {
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.left = Math.random() * 100 + "%";
-        c.style.background = `hsl(${Math.random()*360},100%,50%)`;
-        c.style.animationDuration = Math.random()*2 + 2 + "s";
-        document.body.appendChild(c);
+/* Graffiti */
+function graffiti() {
+    const words = ["LOVE", "XOXO", "💖", "FOREVER", "MINE", "😘"];
+    for (let i = 0; i < 25; i++) {
+        const g = document.createElement("div");
+        g.className = "graffiti";
+        g.textContent = words[Math.floor(Math.random()*words.length)];
+        g.style.left = Math.random()*100 + "%";
+        g.style.top = Math.random()*100 + "%";
+        g.style.color = `hsl(${Math.random()*360},100%,60%)`;
+        g.style.transform = `rotate(${Math.random()*60-30}deg)`;
+        document.body.appendChild(g);
     }
 }
 
-// Fireworks generator
-function fireworks() {
+/* Fireworks canvas */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+function startFireworks() {
     setInterval(() => {
-        const f = document.createElement("div");
-        f.className = "firework";
-        f.style.left = Math.random() * 100 + "%";
-        f.style.top = Math.random() * 100 + "%";
-        document.body.appendChild(f);
-        setTimeout(() => f.remove(), 1000);
-    }, 300);
+        const x = Math.random()*canvas.width;
+        const y = Math.random()*canvas.height;
+        for (let i = 0; i < 50; i++) {
+            ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
+            ctx.beginPath();
+            ctx.arc(x + Math.random()*80-40, y + Math.random()*80-40, 3, 0, Math.PI*2);
+            ctx.fill();
+        }
+        setTimeout(()=>ctx.clearRect(0,0,canvas.width,canvas.height),200);
+    }, 400);
 }
 </script>
 
